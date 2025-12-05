@@ -1,18 +1,57 @@
-let API_BASE_URL = 'https://grandluxe-fix-backend-lagi.vercel.app';
+let API_BASE_URL = '';
 const PROXY_BASE_URL = 'http://localhost:8010'; // dev CORS proxy (optional)
 
-// Allow runtime override via meta tag <meta name="api-base-url" content="https://api.example.com">
-// Otherwise prefer local backend when developing on localhost
+// Determine API_BASE_URL in this order:
+// 1) runtime override in localStorage (`apiBaseUrl`)
+// 2) meta tag <meta name="api-base-url" content="...">
+// 3) if running on localhost, use local backend
 try {
-  if (typeof document !== 'undefined') {
-    const m = document.querySelector('meta[name="api-base-url"]');
-    if (m && m.content && m.content.trim()) {
-      API_BASE_URL = m.content.trim();
-    } else if (typeof window !== 'undefined' && (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')) {
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem('apiBaseUrl');
+    if (stored && stored.trim()) {
+      API_BASE_URL = stored.trim();
+    } else if (typeof document !== 'undefined') {
+      const m = document.querySelector('meta[name="api-base-url"]');
+      if (m && m.content && m.content.trim()) API_BASE_URL = m.content.trim();
+    }
+
+    if (!API_BASE_URL && (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')) {
       API_BASE_URL = 'http://localhost:5000';
     }
   }
 } catch (e) {}
+
+// If API_BASE_URL is not known (frontend deployed but backend URL not configured),
+// we will render a small banner so the operator can set the backend URL in the browser
+// (stores to localStorage, no redeploy needed).
+function renderApiConfigBanner() {
+  if (document.getElementById('api-config-banner')) return;
+  if (API_BASE_URL) return; // already configured
+
+  const banner = document.createElement('div');
+  banner.id = 'api-config-banner';
+  banner.innerHTML = `
+    <div style="position:fixed;left:0;right:0;top:0;background:#fff3cd;border-bottom:1px solid #ffeeba;padding:10px;z-index:9999;display:flex;align-items:center;gap:10px;">
+      <strong style="color:#856404">Backend API belum dikonfigurasi.</strong>
+      <span style="color:#856404">Masukkan URL backend (contoh: https://api.example.com) lalu klik Save.</span>
+      <input id="api-base-input" type="text" placeholder="https://backend.example.com" style="flex:1;padding:6px;border:1px solid #ddd;border-radius:4px" />
+      <button id="api-base-save" style="background:#856404;color:#fff;padding:6px 10px;border-radius:4px;border:none;">Save</button>
+      <button id="api-base-close" style="background:transparent;color:#856404;padding:6px 10px;border-radius:4px;border:1px solid #856404">Close</button>
+    </div>`;
+
+  document.body.appendChild(banner);
+  const input = document.getElementById('api-base-input');
+  const save = document.getElementById('api-base-save');
+  const close = document.getElementById('api-base-close');
+
+  save.addEventListener('click', () => {
+    const v = input.value.trim();
+    if (!v) return alert('Masukkan URL backend yang valid.');
+    localStorage.setItem('apiBaseUrl', v);
+    alert('Backend URL disimpan di localStorage. Segarkan halaman.');
+  });
+  close.addEventListener('click', () => banner.remove());
+}
 
 async function safeFetch(url, options) {
   try {
@@ -55,6 +94,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   renderProxyToggle();
+
+  // Show API config banner if backend URL is not set
+  renderApiConfigBanner();
 
 
   // ============================================================
@@ -405,12 +447,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       } catch (err) {
         console.error(err);
+        const extra = !API_BASE_URL ? `<p class="text-yellow-600 text-sm mt-2">Backend URL belum dikonfigurasi. Gunakan banner di bagian atas untuk menyetel <code>apiBaseUrl</code> atau isi meta tag <code>api-base-url</code>.</p>` : '';
         roomsContainer.innerHTML = `
           <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-12">
             <i class="fas fa-exclamation-triangle text-4xl text-red-600 mb-4"></i>
             <p class="text-gray-700 mb-2">Gagal memuat data kamar.</p>
             <p class="text-gray-500 text-sm">Penyebab umum: server tidak mengizinkan CORS atau server sedang offline.</p>
             <p class="text-gray-500 text-sm mt-2">Untuk development, jalankan backend dengan header CORS atau gunakan proxy (contoh: <a class="text-primary underline" href="https://github.com/Rob--W/cors-anywhere/" target="_blank">CORS proxy</a>).</p>
+            ${extra}
           </div>`;
       }
     })();
