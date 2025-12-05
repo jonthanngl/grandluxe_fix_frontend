@@ -1,0 +1,146 @@
+
+/* Custom Styles for Grand Luxe Hotel */
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", serif;
+}
+
+.hero-bg {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80");
+  background-size: cover;
+  background-position: center;
+}
+
+.auth-bg {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80");
+  background-size: cover;
+  background-position: center;
+}
+
+.room-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.section-title:after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: #d4af37;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8b7355;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7a6347;
+}
+
+/* Loading animation */
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #8b7355;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Form focus states */
+.form-input:focus {
+  box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+}
+
+/* Button animations */
+.btn-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+html, body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .hero-bg {
+    background-position: 65% center;
+  }
+  
+  .room-card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.btn-pesan, 
+.mobile-menu-button {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  h2 {
+    font-size: 1.75rem !important;
+  }
+  
+  p {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+  }
+}
+
+.btn-hover, 
+.room-card, 
+.mobile-menu-item {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+input, select, textarea, button {
+  font-size: 16px; 
+}

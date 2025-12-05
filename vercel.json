@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/index.js",
+      "use": "@vercel/node",
+      "config": {
+        
+        "includeFiles": ["backend/package.json"] 
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "backend/index.js" },
+    { "src": "/rooms(.*)", "dest": "backend/index.js" },
+    { "src": "/auth(.*)", "dest": "backend/index.js" },
+    { "src": "/bookings(.*)", "dest": "backend/index.js" },
+    { "src": "/admin(.*)", "dest": "backend/index.js" },
+    
+    
+    { "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|webp|avif|eot|ttf|woff|woff2|ico))", "dest": "/$1" },
+    
+    { "src": "/kamar", "dest": "kamar.html" },
+    { "src": "/pemesanan", "dest": "pemesanan.html" },
+    { "src": "/login", "dest": "login.html" },
+    { "src": "/user", "dest": "user.html" },
+    { "src": "/admin", "dest": "admin.html" },
+    
+   
+    { "src": "/", "dest": "index.html" }
+  ]
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Tamu - Grand Luxe Hotel</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#8B7355",
+              secondary: "#2C2C2C",
+              accent: "#D4AF37",
+              light: "#F8F5F2",
+              dark: "#1A1A1A",
+            },
+            fontFamily: {
+              serif: ["Playfair Display", "serif"],
+              sans: ["Montserrat", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <script>
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role');
+        if (!token || role !== 'user') {
+            alert("Silakan login terlebih dahulu.");
+            window.location.href = 'login.html';
+        }
+    </script>
+  </head>
+
+  <body class="bg-gray-50 text-secondary font-sans">
+    
+    <nav id="navbar" class="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-md transition-all duration-300">
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+          <a href="index.html" class="text-2xl font-serif font-bold text-primary">Grand Luxe</a>
+
+          <div class="hidden md:flex space-x-8 ml-auto mr-8">
+            <a href="index.html" class="font-medium hover:text-primary transition-colors duration-300">Beranda</a>
+            <a href="kamar.html" class="font-medium hover:text-primary transition-colors duration-300">Kamar & Suite</a>
+            <a href="pemesanan.html" class="font-medium hover:text-primary transition-colors duration-300">Pemesanan</a>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <a id="user-avatar" href="user.html" class="block w-10 h-10 rounded-full overflow-hidden border-2 border-primary hover:scale-105 transition-transform duration-300">
+                <div class="w-full h-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                    <i class="fas fa-user"></i>
+                </div>
+            </a>
+            
+            <button id="mobile-menu-button" class="md:hidden text-2xl text-primary focus:outline-none">
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="overlay" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity duration-300"></div>
+    <div id="mobile-menu" class="fixed top-0 right-[-250px] w-[250px] h-screen bg-white/70 backdrop-blur-xl shadow-2xl border-l border-white/30 z-50 transition-all duration-500 flex flex-col pt-24 space-y-4 px-6">
+      <a href="index.html" class="font-medium hover:text-primary">Beranda</a>
+      <a href="kamar.html" class="font-medium hover:text-primary">Kamar & Suite</a>
+      <a href="pemesanan.html" class="font-medium hover:text-primary">Pemesanan</a>
+      <a href="#" id="logout-mobile" class="font-medium text-red-600">Keluar</a>
+    </div>
+
+    <div class="container mx-auto px-4 pt-28 pb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-xl shadow-md p-6 text-center sticky top-28">
+            <div class="w-24 h-24 bg-primary text-white rounded-full flex items-center justify-center text-4xl font-bold mx-auto mb-4 shadow-lg">
+              <i class="fas fa-user"></i>
+            </div>
+            <h2 class="text-xl font-serif font-bold mb-1" id="dashboard-name">Tamu Terhormat</h2>
+            <p class="text-gray-500 text-sm mb-6" id="dashboard-email">user@example.com</p>
+            
+            <div class="space-y-2">
+                <button class="w-full bg-primary text-white py-2 rounded-md font-medium hover:bg-opacity-90 transition-colors">
+                    <i class="fas fa-history mr-2"></i> Riwayat Pesanan
+                </button>
+                <button onclick="window.location.href='kamar.html'" class="w-full border border-primary text-primary py-2 rounded-md font-medium hover:bg-primary hover:text-white transition-colors">
+                    <i class="fas fa-plus mr-2"></i> Pesan Lagi
+                </button>
+                <button id="logout-btn" class="w-full border border-red-500 text-red-500 py-2 rounded-md font-medium hover:bg-red-50 transition-colors mt-4">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Keluar
+                </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-3">
+          <div class="bg-white rounded-xl shadow-md p-8">
+            <h2 class="text-2xl font-serif font-bold mb-6 border-b pb-4">Riwayat Pemesanan Anda</h2>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-gray-600 uppercase text-sm leading-normal">
+                    <th class="py-3 px-4 font-medium">Tanggal Menginap</th>
+                    <th class="py-3 px-4 font-medium">Tipe Kamar</th>
+                    <th class="py-3 px-4 font-medium">Status</th>
+                    <th class="py-3 px-4 font-medium">Total Harga</th>
+                  </tr>
+                </thead>
+                <tbody id="booking-history-body" class="text-gray-600 text-sm">
+                  <tr>
+                      <td colspan="4" class="text-center py-8">
+                          <i class="fas fa-spinner fa-spin text-2xl text-primary mb-2"></i>
+                          <p>Memuat riwayat pesanan...</p>
+                      </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Script tambahan kecil untuk menampilkan nama di sidebar
+        document.addEventListener("DOMContentLoaded", () => {
+            const name = localStorage.getItem("userName");
+            const role = localStorage.getItem("role"); // Seharusnya 'userEmail' di backend kita tidak kirim email di login, tapi bisa ambil dari token kalau mau advanced. 
+            // Untuk sekarang nama saja cukup.
+            if(name) document.getElementById("dashboard-name").innerText = name;
+            // document.getElementById("dashboard-email").innerText = ... (kalau ada data email)
+        });
+    </script>
+  </body>
+</html>

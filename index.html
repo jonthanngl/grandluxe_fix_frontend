@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grand Luxe Hotel | Luxury Experience</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#8B7355",
+              secondary: "#2C2C2C",
+              accent: "#D4AF37",
+              light: "#F8F5F2",
+              dark: "#1A1A1A",
+            },
+            fontFamily: {
+              serif: ["Playfair Display", "serif"],
+              sans: ["Montserrat", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-white text-secondary">
+    <!-- Navigation -->
+    <nav
+      id="navbar"
+      class="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-md transition-all duration-300"
+    >
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+          <a
+            href="index.html"
+            class="text-2xl font-serif font-bold text-primary"
+            >Grand Luxe</a
+          >
+
+          <!-- Menu Desktop -->
+          <div class="hidden md:flex space-x-8 ml-auto mr-8">
+            <a
+              href="index.html"
+              class="font-medium hover:text-primary transition-colors duration-300"
+              >Beranda</a
+            >
+            <a
+              href="kamar.html"
+              class="font-medium hover:text-primary transition-colors duration-300"
+              >Kamar & Suite</a
+            >
+            <a
+              href="pemesanan.html"
+              class="font-medium hover:text-primary transition-colors duration-300"
+              >Pemesanan</a
+            >
+            
+          </div>
+
+          <!-- User Avatar & Logout -->
+          <div class="flex items-center space-x-4">
+            <!-- Avatar User -->
+            <a id="user-avatar" href="login.html" class="block w-10 h-10 rounded-full overflow-hidden border-2 border-primary hover:scale-105 transition-transform duration-300 relative">
+              <img
+                src="https://th.bing.com/th/id/OIP.2fjfpvyy6AslG7GH5mipHgHaHa?w=177&h=180&c=7&r=0&o=7&cb=ucfimgc2&dpr=1.3&pid=1.7&rm=3"
+                alt="Profil"
+                class="w-full h-full object-cover"
+              />
+              <div id="avatar-initial" class="hidden w-full h-full bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold absolute top-0 left-0"></div>
+            </a>
+            
+            <!-- Tombol Menu Mobile -->
+            <button
+              id="mobile-menu-button"
+              class="md:hidden text-2xl text-primary focus:outline-none"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Overlay -->
+        <div
+          id="overlay"
+          class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity duration-300"
+        ></div>
+
+        <!-- Mobile Sidebar Menu -->
+        <div
+          id="mobile-menu"
+          class="fixed top-0 right-[-250px] w-[250px] h-screen bg-white/70 backdrop-blur-xl shadow-2xl border-l border-white/30 z-50 transition-all duration-500 flex flex-col pt-24 space-y-4 px-6"
+        >
+          <a href="index.html" class="font-medium hover:text-primary">Beranda</a>
+          <a href="kamar.html" class="font-medium hover:text-primary"
+            >Kamar & Suite</a
+          >
+          <a href="pemesanan.html" class="font-medium hover:text-primary"
+            >Pemesanan</a
+          >
+          <a href="login.html" class="font-medium hover:text-primary">Masuk</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center text-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-2xl">
+          <!-- Welcome Message berdasarkan role -->
+          <div id="welcome-message" class="mb-6">
+            <!-- Default message untuk non-login -->
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-serif font-bold mb-6">
+              Pengalaman Mewah yang Tak Terlupakan
+            </h1>
+            <p class="text-xl mb-8">
+              Grand Luxe Hotel menawarkan akomodasi bintang lima dengan pelayanan
+              terbaik di lokasi strategis pusat kota.
+            </p>
+          </div>
+
+          <!-- Dashboard Links untuk user yang sudah login -->
+          <div id="dashboard-links" class="hidden mb-8">
+            <h2 class="text-3xl font-serif font-bold mb-4" id="dashboard-title">Selamat Datang!</h2>
+            <p class="text-xl mb-6" id="dashboard-subtitle">
+              Kelola akomodasi dan pengalaman menginap Anda.
+            </p>
+          </div>
+
+          <div
+            class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+          >
+            <!-- Tombol untuk user biasa/non-login -->
+            <div id="default-buttons">
+              <a
+                href="pemesanan.html"
+                class="bg-accent text-dark px-8 py-3 rounded-md font-bold text-center hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1"
+                >Pesan Sekarang</a
+              >
+              <a
+                href="kamar.html"
+                class="border-2 border-white text-white px-8 py-3 rounded-md font-bold text-center hover:bg-white hover:text-dark transition-all duration-300"
+                >Jelajahi Kamar</a
+              >
+            </div>
+
+            <!-- Tombol untuk user yang sudah login -->
+            <div id="user-dashboard-buttons" class="hidden">
+              <a
+                href="kamar.html"
+                class="bg-accent text-dark px-8 py-3 rounded-md font-bold text-center hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1"
+                >Pesan Kamar</a
+              >
+              <a
+                href="pemesanan.html"
+                class="border-2 border-white text-white px-8 py-3 rounded-md font-bold text-center hover:bg-white hover:text-dark transition-all duration-300"
+                >Lihat Pemesanan</a
+              >
+            </div>
+
+            <!-- Tombol untuk admin -->
+            <div id="admin-dashboard-buttons" class="hidden">
+              <a
+                href="admin.html"
+                class="bg-accent text-dark px-8 py-3 rounded-md font-bold text-center hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1"
+                >Admin Dashboard</a
+              >
+              <a
+                href="kamar.html"
+                class="border-2 border-white text-white px-8 py-3 rounded-md font-bold text-center hover:bg-white hover:text-dark transition-all duration-300"
+                >Kelola Kamar</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Facilities Section -->
+    <section class="py-20 bg-light">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl font-serif font-bold text-center mb-16 relative section-title"
+        >
+          Fasilitas Kami
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="text-center p-6">
+            <div class="text-5xl text-primary mb-4">
+              <i class="fas fa-swimming-pool"></i>
+            </div>
+            <h3 class="text-xl font-serif font-semibold mb-3">
+              Kolam Renang Infinity
+            </h3>
+            <p class="text-gray-600">
+              Nikmati pemandangan kota yang menakjubkan dari kolam renang
+              infinity kami yang eksklusif.
+            </p>
+          </div>
+
+          <div class="text-center p-6">
+            <div class="text-5xl text-primary mb-4">
+              <i class="fas fa-spa"></i>
+            </div>
+            <h3 class="text-xl font-serif font-semibold mb-3">
+              Spa & Wellness
+            </h3>
+            <p class="text-gray-600">
+              Pijat relaksasi dan perawatan tubuh dengan terapis profesional
+              untuk menyegarkan pikiran dan tubuh.
+            </p>
+          </div>
+
+          <div class="text-center p-6">
+            <div class="text-5xl text-primary mb-4">
+              <i class="fas fa-utensils"></i>
+            </div>
+            <h3 class="text-xl font-serif font-semibold mb-3">
+              Restoran Premium
+            </h3>
+            <p class="text-gray-600">
+              Nikmati hidangan internasional terbaik yang disiapkan oleh koki
+              terkenal dunia.
+            </p>
+          </div>
+
+          <div class="text-center p-6">
+            <div class="text-5xl text-primary mb-4">
+              <i class="fas fa-dumbbell"></i>
+            </div>
+            <h3 class="text-xl font-serif font-semibold mb-3">
+              Fitness Center
+            </h3>
+            <p class="text-gray-600">
+              Pusat kebugaran lengkap dengan peralatan modern dan pelatih
+              pribadi.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rooms Preview -->
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl font-serif font-bold text-center mb-16 relative section-title"
+        >
+          Kamar & Suite
+        </h2>
+
+        <div id="rooms-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="room-card ..."> ... </div>
+          <div class="room-card ..."> ... </div>
+          <div class="room-card ..."> ... </div>
+        </div>
+
+        <div class="text-center mt-12">
+          <a
+            href="kamar.html" class="bg-primary text-white px-8 py-3 rounded-md font-bold hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1"
+            >Lihat Semua Kamar</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-light">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl font-serif font-bold text-center mb-16 relative section-title"
+        >
+          Testimonials
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="text-accent text-xl mr-2">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <p class="italic mb-6">
+              "Pengalaman menginap yang luar biasa! Pelayanan sangat memuaskan,
+              kamar bersih dan nyaman, serta lokasi strategis. Pasti akan
+              kembali lagi!"
+            </p>
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+              <div>
+                <h4 class="font-bold">Sarah Johnson</h4>
+                <p class="text-sm text-gray-500">Business Traveler</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="text-accent text-xl mr-2">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <p class="italic mb-6">
+              "Momen bulan madu kami di Grand Luxe Hotel sangat sempurna!
+              Suite-nya mewah, pemandangan menakjubkan, dan staf sangat
+              membantu."
+            </p>
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+              <div>
+                <h4 class="font-bold">Michael & Lisa Chen</h4>
+                <p class="text-sm text-gray-500">Honeymooners</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="text-accent text-xl mr-2">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <p class="italic mb-6">
+              "Hotel ini sempurna untuk acara perusahaan kami. Fasilitas meeting
+              lengkap, makanan lezat, dan layanan profesional. Sangat
+              direkomendasikan!"
+            </p>
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+              <div>
+                <h4 class="font-bold">Robert Williams</h4>
+                <p class="text-sm text-gray-500">Corporate Event Planner</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <div>
+            <h3 class="text-xl font-serif font-bold mb-6 text-accent">
+              Grand Luxe Hotel
+            </h3>
+            <p class="mb-4 text-gray-300">
+              Hotel mewah bintang lima dengan pelayanan terbaik di jantung kota.
+              Pengalaman menginap tak terlupakan menanti Anda.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-accent transition-colors duration-300"
+              >
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-accent transition-colors duration-300"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-accent transition-colors duration-300"
+              >
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-serif font-bold mb-6 text-accent">
+              Tautan Cepat
+            </h3>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="index.html"
+                  class="text-gray-300 hover:text-white transition-colors duration-300"
+                  >Beranda</a
+                >
+              </li>
+              <li>
+                <a
+                  href="kamar.html"
+                  class="text-gray-300 hover:text-white transition-colors duration-300"
+                  >Kamar & Suite</a
+                >
+              </li>
+              <li>
+                <a
+                  href="pemesanan.html"
+                  class="text-gray-300 hover:text-white transition-colors duration-300"
+                  >Pemesanan</a
+                >
+              </li>
+              <li>
+                <a
+                  href="login.html"
+                  class="text-gray-300 hover:text-white transition-colors duration-300"
+                  >Masuk</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-serif font-bold mb-6 text-accent">
+              Kontak Kami
+            </h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex items-start">
+                <i class="fas fa-map-marker-alt mt-1 mr-3 text-accent"></i>
+                <span>Jalan abdulhakim, Medan Selayang</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-phone mr-3 text-accent"></i>
+                <span>+62 822 7715 8217</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-envelope mr-3 text-accent"></i>
+                <span>info@grandluxehotel.com</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-serif font-bold mb-6 text-accent">
+              Newsletter
+            </h3>
+            <p class="mb-4 text-gray-300">
+              Berlangganan newsletter kami untuk mendapatkan penawaran khusus
+              dan update terbaru.
+            </p>
+            <form class="flex">
+              <input
+                type="email"
+                placeholder="Email Anda"
+                class="px-4 py-2 w-full rounded-l-md focus:outline-none text-dark"
+              />
+              <button
+                type="submit"
+                class="bg-accent text-dark px-4 py-2 rounded-r-md font-bold hover:bg-opacity-90 transition-colors duration-300"
+              >
+                Langganan
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+          <p>&copy; 2025 Grand Luxe Hotel. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

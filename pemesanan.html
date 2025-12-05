@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pemesanan - Grand Luxe Hotel</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#8B7355",
+              secondary: "#2C2C2C",
+              accent: "#D4AF37",
+              light: "#F8F5F2",
+              dark: "#1A1A1A",
+            },
+            fontFamily: {
+              serif: ["Playfair Display", "serif"],
+              sans: ["Montserrat", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #8B7355;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #725a3d;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-secondary">
+    <!-- Navigation -->
+    <nav
+      id="navbar"
+      class="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-md transition-all duration-300"
+    >
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+          <a
+            href="index.html"
+            class="text-2xl font-serif font-bold text-primary"
+            >Grand Luxe</a
+          >
+
+          <!-- Menu Desktop -->
+          <div class="hidden md:flex space-x-8 ml-auto mr-8">
+            <a
+              href="index.html"
+              class="font-medium hover:text-primary transition-colors duration-300"
+              >Beranda</a
+            >
+            <a
+              href="kamar.html"
+              class="font-medium hover:text-primary transition-colors duration-300"
+              >Kamar & Suite</a
+            >
+            <a
+              href="pemesanan.html"
+              class="font-medium hover:text-primary transition-colors duration-300"
+              >Pemesanan</a
+            >
+          </div>
+
+          <!-- User Avatar & Logout -->
+          <div class="flex items-center space-x-4">
+            <!-- Avatar User -->
+            <a id="user-avatar" href="login.html" class="block w-10 h-10 rounded-full overflow-hidden border-2 border-primary hover:scale-105 transition-transform duration-300 relative">
+              <img
+                src="https://th.bing.com/th/id/OIP.2fjfpvyy6AslG7GH5mipHgHaHa?w=177&h=180&c=7&r=0&o=7&cb=ucfimgc2&dpr=1.3&pid=1.7&rm=3"
+                alt="Profil"
+                class="w-full h-full object-cover"
+              />
+              <div id="avatar-initial" class="hidden w-full h-full bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold absolute top-0 left-0"></div>
+            </a>
+
+            <!-- Tombol Menu Mobile -->
+            <button
+              id="mobile-menu-button"
+              class="md:hidden text-2xl text-primary focus:outline-none"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Overlay -->
+        <div
+          id="overlay"
+          class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity duration-300"
+        ></div>
+
+        <!-- Mobile Sidebar Menu -->
+        <div
+          id="mobile-menu"
+          class="fixed top-0 right-[-250px] w-[250px] h-screen bg-white/70 backdrop-blur-xl shadow-2xl border-l border-white/30 z-50 transition-all duration-500 flex flex-col pt-24 space-y-4 px-6"
+        >
+          <a href="index.html" class="font-medium hover:text-primary">Beranda</a>
+          <a href="kamar.html" class="font-medium hover:text-primary"
+            >Kamar & Suite</a
+          >
+          <a href="pemesanan.html" class="font-medium hover:text-primary"
+            >Pemesanan</a
+          >
+          <a href="login.html" class="font-medium hover:text-primary">Masuk</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Booking Page -->
+    <div class="min-h-screen bg-light pt-24 pb-12">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-serif font-bold text-center mb-4">
+          Pemesanan Kamar
+        </h1>
+        <p class="text-xl text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+          Isi formulir di bawah ini untuk memesan kamar di Grand Luxe Hotel. Tim
+          kami akan menghubungi Anda untuk konfirmasi.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Form Pemesanan -->
+          <div class="lg:col-span-2">
+            <div class="bg-white rounded-xl shadow-md p-8">
+              <h2 class="text-2xl font-serif font-bold mb-6">
+                Detail Pemesanan
+              </h2>
+
+              <form id="booking-form">
+                <div class="mb-6">
+                  <h3 class="text-xl font-serif font-semibold mb-4">
+                    Informasi Pribadi
+                  </h3>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label for="first-name" class="block text-gray-700 mb-2"
+                        >Nama Depan</label
+                      >
+                      <input
+                        type="text"
+                        id="first-name"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="Nama depan"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label for="last-name" class="block text-gray-700 mb-2"
+                        >Nama Belakang</label
+                      >
+                      <input
+                        type="text"
+                        id="last-name"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="Nama belakang"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label for="email" class="block text-gray-700 mb-2"
+                        >Email</label
+                      >
+                      <input
+                        type="email"
+                        id="email"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="nama@contoh.com"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label for="phone" class="block text-gray-700 mb-2"
+                        >Nomor Telepon</label
+                      >
+                      <input
+                        type="tel"
+                        id="phone"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="+62 812 3456 7890"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-6">
+                  <h3 class="text-xl font-serif font-semibold mb-4">
+                    Detail Reservasi
+                  </h3>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label for="check-in" class="block text-gray-700 mb-2"
+                        >Tanggal Check-in</label
+                      >
+                      <input
+                        type="date"
+                        id="check-in"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label for="check-out" class="block text-gray-700 mb-2"
+                        >Tanggal Check-out</label
+                      >
+                      <input
+                        type="date"
+                        id="check-out"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-6">
+                  <h3 class="text-xl font-serif font-semibold mb-4">
+                    Kamar Terpilih
+                  </h3>
+
+                  <div class="bg-gray-50 border-2 border-primary/20 rounded-lg p-6 flex justify-between items-center shadow-sm">
+                    <div>
+                      <h4 id="display-room-type" class="text-xl font-bold text-primary">Memuat data...</h4>
+                      <p class="text-gray-600 text-sm mt-1">Pilihan Anda yang sangat tepat.</p>
+                    </div>
+                    <div class="text-right">
+                      <p id="display-room-price" class="text-lg font-bold text-gray-800">Rp 0</p>
+                      <span class="text-xs text-gray-500">/malam</span>
+                    </div>
+                  </div>
+
+                  <input type="hidden" id="selected-room-id">
+                  <input type="hidden" id="selected-room-price">
+                  <input type="hidden" id="selected-room-name">
+                  
+                  <div class="mt-2 text-right">
+                    <a href="kamar.html" class="text-sm text-primary hover:underline">Salah pilih kamar? Ganti di sini</a>
+                  </div>
+                </div>
+
+                <div class="mb-6">
+                  <h3 class="text-xl font-serif font-semibold mb-4">
+                    Permintaan Khusus
+                  </h3>
+
+                  <textarea
+                    id="special-requests"
+                    rows="4"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Permintaan khusus (opsional)"
+                  ></textarea>
+                </div>
+
+                <div class="flex items-center mb-6">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                    required
+                  />
+                  <label for="terms" class="ml-2 text-gray-700"
+                    >Saya setuju dengan
+                    <a href="#" class="text-primary hover:underline"
+                      >syarat dan ketentuan</a
+                    >
+                    yang berlaku</label
+                  >
+                </div>
+
+                <button
+                  type="submit"
+                  class="w-full bg-primary text-white py-3 rounded-md font-bold text-lg hover:bg-opacity-90 transition-colors duration-300"
+                >
+                  Lanjutkan ke Pembayaran
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Order Summary -->
+          <div class="lg:col-span-1">
+            <div class="bg-white rounded-xl shadow-md p-6 sticky top-24">
+              <h2 class="text-2xl font-serif font-bold mb-6">
+                Ringkasan Pemesanan
+              </h2>
+
+              <div class="mb-6">
+                <div class="flex justify-between mb-2">
+                  <span class="text-gray-600 summary-room-name">Memuat data</span>
+                  <span class="font-medium summary-room-details">Rp - </span>
+                </div>
+
+                <div class="flex justify-between mb-2">
+                  <span class="text-gray-600">Pajak & Layanan (10%)</span>
+                  <span class="font-medium summary-tax">Rp -</span>
+                </div>
+
+                <div class="flex justify-between mb-2">
+                  <span class="text-gray-600">Diskon (5%)</span>
+                  <span class="font-medium text-green-600 summary-discount">Rp -</span>
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="flex justify-between text-lg font-bold">
+                  <span>Total</span>
+                  <span class="text-primary summary-total">Rp - </span>
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <h3 class="font-semibold mb-2">Yang termasuk:</h3>
+                <ul class="text-sm text-gray-600 space-y-1">
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    <span>Sarapan pagi untuk 2 orang</span>
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    <span>Akses ke kolam renang dan fitness center</span>
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    <span>WiFi gratis</span>
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    <span>Parkir kendaraan</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h3 class="font-semibold mb-2">Metode Pembayaran</h3>
+                <p class="text-sm text-gray-600">
+                  Pebayaran dilakukan di hotel saat check in. Jika Anda ingin
+                  membayar dengan via transfer antar bank dan atau ewallet, silakan hubungi layanan pelanggan kami.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
