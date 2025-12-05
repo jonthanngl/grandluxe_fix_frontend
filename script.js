@@ -1,4 +1,4 @@
-let API_BASE_URL = 'https://grandluxe-fix.vercel.app';
+let API_BASE_URL = 'https://grandluxe-fix-backend-lagi.vercel.app/';
 const PROXY_BASE_URL = 'http://localhost:8010'; // dev CORS proxy (optional)
 
 // If the frontend is served from localhost, prefer the local backend automatically
@@ -696,4 +696,5 @@ document.addEventListener("DOMContentLoaded", function () {
         if(cancelEdit) cancelEdit.addEventListener("click", () => document.getElementById('edit-room-modal').classList.add('hidden'));
     }
   }
+
 });
