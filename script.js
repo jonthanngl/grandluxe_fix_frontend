@@ -1,10 +1,16 @@
-let API_BASE_URL = 'https://grandluxe-fix-backend-lagi.vercel.app/';
+let API_BASE_URL = 'https://grandluxe-fix-backend-lagi.vercel.app';
 const PROXY_BASE_URL = 'http://localhost:8010'; // dev CORS proxy (optional)
 
-// If the frontend is served from localhost, prefer the local backend automatically
+// Allow runtime override via meta tag <meta name="api-base-url" content="https://api.example.com">
+// Otherwise prefer local backend when developing on localhost
 try {
-  if (typeof window !== 'undefined' && (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')) {
-    API_BASE_URL = 'http://localhost:5000';
+  if (typeof document !== 'undefined') {
+    const m = document.querySelector('meta[name="api-base-url"]');
+    if (m && m.content && m.content.trim()) {
+      API_BASE_URL = m.content.trim();
+    } else if (typeof window !== 'undefined' && (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')) {
+      API_BASE_URL = 'http://localhost:5000';
+    }
   }
 } catch (e) {}
 
@@ -696,5 +702,4 @@ document.addEventListener("DOMContentLoaded", function () {
         if(cancelEdit) cancelEdit.addEventListener("click", () => document.getElementById('edit-room-modal').classList.add('hidden'));
     }
   }
-
 });
